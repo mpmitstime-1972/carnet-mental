@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0E1014">
+<title>Carnet mental 8 semaines</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+:root{--bg:#0E1014;--sf:#181C24;--s2:#1F242E;--bd:#2A2F3A;--tx:#F2F1ED;--mu:#8A8F98;--vi:#9D8DF1;--go:#E8B33D;--te:#4FC1B0;--co:#E8543E}
+html,body{background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+.wrap{max-width:520px;margin:0 auto;padding:16px}
+.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:14px}
+.eyebrow{font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--mu);display:block}
+h1{font-size:19px;font-weight:700;margin:3px 0 2px;line-height:1.15}
+.sub{font-size:12px;color:var(--mu)}
+.pill{font-family:ui-monospace,monospace;font-size:12px;background:var(--sf);border:1px solid var(--bd);border-radius:999px;padding:6px 12px;white-space:nowrap;flex-shrink:0}
+.route-wrap{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:10px 6px 4px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.route-wrap::-webkit-scrollbar{display:none}
+#route-svg{display:block;min-width:620px;height:auto;cursor:pointer}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:18px;margin-bottom:8px}
+.cseg{font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:2px}
+.cax{font-size:11px;color:var(--mu);display:block;margin-bottom:6px}
+.ctit{font-size:23px;font-weight:700;margin-bottom:7px;line-height:1.1}
+.rtag{display:inline-block;font-family:ui-monospace,monospace;font-size:10px;color:var(--mu);border:1px solid var(--bd);border-radius:999px;padding:4px 10px;margin-bottom:14px}
+.msg{font-size:14px;line-height:1.55;margin-bottom:18px}
+.sec{border-top:1px solid var(--bd);padding-top:14px;margin-bottom:14px}
+.stit{font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;display:block;margin-bottom:10px}
+.stxt{font-size:13px;color:var(--mu);line-height:1.5;display:block;margin-bottom:8px}
+.abox{background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;margin-bottom:12px}
+.albl{font-size:12px;color:var(--mu);display:block;margin-bottom:7px}
+.alink{display:block;font-size:13px;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:9px 12px;text-decoration:none;margin-bottom:5px}
+.alink:last-child{margin-bottom:0}
+.dhdr{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;font-family:ui-monospace,monospace;font-size:10px;color:var(--mu);text-align:center;margin-bottom:6px}
+.abl{margin-bottom:12px}
+.anm{font-size:13px;font-weight:700;display:block}
+.ant{font-family:ui-monospace,monospace;font-size:10px;color:var(--mu);display:block;margin-bottom:5px}
+.adys{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.db{aspect-ratio:1;border-radius:8px;border:1.5px solid var(--bd);background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;padding:0;min-height:36px;width:100%;color:transparent;font-weight:700}
+.db.na{border-color:transparent;background:transparent;color:var(--mu);cursor:default;font-size:11px;font-weight:400}
+.dfc{display:flex;gap:12px;align-items:flex-start;background:var(--s2);border:1px solid var(--bd);border-radius:12px;padding:14px}
+.dfb{flex-shrink:0;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;font-size:18px;border-width:1.5px;border-style:solid;background:transparent;font-weight:700}
+.dft{font-weight:700;font-size:14px;margin-bottom:4px}
+.dfx{font-size:13px;color:var(--mu);line-height:1.5}
+.glb{display:flex;justify-content:space-between;font-size:11px;color:var(--mu);margin-top:6px;font-family:ui-monospace,monospace}
+input[type=range]{width:100%;height:32px;cursor:pointer;display:block}
+.rdw{display:flex;justify-content:center;margin-bottom:14px}
+.rdw svg{width:100%;max-width:280px;height:auto}
+.rlg{display:flex;gap:14px;margin-bottom:10px;font-family:ui-monospace,monospace;font-size:10px;color:var(--mu)}
+.ldot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.slr{margin-bottom:14px}
+.slh{display:flex;justify-content:space-between;font-weight:700;font-size:13px;margin-bottom:2px}
+.slv{font-family:ui-monospace,monospace}
+.sld{font-size:11px;color:var(--mu);margin-bottom:5px;line-height:1.4;display:block}
+.pager{position:fixed;left:0;right:0;bottom:0;background:rgba(14,16,20,.95);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--bd);padding:10px 16px calc(10px + env(safe-area-inset-bottom));display:flex;gap:10px;z-index:100}
+.pbtn{flex:1;background:var(--s2);border:1px solid var(--bd);color:var(--tx);font-family:inherit;font-weight:700;font-size:14px;padding:13px;border-radius:10px;cursor:pointer;display:block;text-align:center}
+.pbtn:disabled{opacity:.35;cursor:default}
+.rbtn{display:block;margin:4px auto 0;background:none;border:none;color:var(--mu);font-family:ui-monospace,monospace;font-size:10px;text-decoration:underline;cursor:pointer;padding:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="topbar">
+    <div>
+      <span class="eyebrow">Carnet mental - 8 semaines</span>
+      <h1>Calibrer ton attention</h1>
+      <p class="sub">Course - 800m au 10000m - Athletisme</p>
+    </div>
+    <div class="pill" id="pill">0/8</div>
+  </header>
+  <div class="route-wrap" id="route-wrap">
+    <svg id="route-svg" viewBox="0 0 840 160"></svg>
+  </div>
+  <div id="card"></div>
+  <button class="rbtn" id="reset-btn">Reinitialiser ma progression</button>
+</div>
+<nav class="pager">
+  <button class="pbtn" id="prev-btn" disabled>Precedent</button>
+  <button class="pbtn" id="next-btn">Suivant</button>
+</nav>
+
+<script>
+//
+var C={"bg":"#0E1014","sf":"#181C24","s2":"#1F242E","bd":"#2A2F3A","tx":"#F2F1ED","mu":"#8A8F98","violet":"#9D8DF1","gold":"#E8B33D","teal":"#4FC1B0","coral":"#E8543E"};
+var CM={violet:C.violet,gold:C.gold,teal:C.teal,coral:C.coral};
+var AX=[{"l": "Lucidit\u00e9", "d": "Je remarque ce qui se passe en moi (pens\u00e9es, sensations, \u00e9motions) et autour de moi."}, {"l": "Attitude", "d": "Quand une pens\u00e9e ou une \u00e9motion d\u00e9sagr\u00e9able arrive, je l'accueille sans chercher \u00e0 la faire dispara\u00eetre."}, {"l": "Engagement", "d": "Je reste pleinement engag\u00e9 dans ma t\u00e2che, m\u00eame quand c'est difficile."}, {"l": "Focus attentionnel", "d": "Mon attention va sur ce qui m'aide vraiment \u00e0 performer."}, {"l": "Reconcentration", "d": "Quand je suis distrait, je reviens vite et facilement sur ma t\u00e2che."}];
+var AU=[[{"l": "Infos generales", "u": "https://on.soundcloud.com/sOJFagllI2MEp9zzDz"}, {"l": "Scan long", "u": "https://on.soundcloud.com/TK0ydJoTMAKlgXQ50q"}, {"l": "Concentration assise", "u": "https://on.soundcloud.com/2vNwTX5RJyBuWchT7z"}], [{"l": "Scan court", "u": "https://on.soundcloud.com/kvqvLZjj7nPdsXYwnu"}, {"l": "Concentration assise", "u": "https://on.soundcloud.com/2vNwTX5RJyBuWchT7z"}, {"l": "Concentration debout", "u": "https://on.soundcloud.com/TCXlC6XgscIobD2Ik2"}], [{"l": "Scan court", "u": "https://on.soundcloud.com/kvqvLZjj7nPdsXYwnu"}, {"l": "Concentration assise", "u": "https://on.soundcloud.com/2vNwTX5RJyBuWchT7z"}, {"l": "Alternance 1 minute", "u": "https://on.soundcloud.com/XfJNWgtRWQPvQhRWWW"}], [{"l": "Scan court", "u": "https://on.soundcloud.com/kvqvLZjj7nPdsXYwnu"}, {"l": "Concentration assise", "u": "https://on.soundcloud.com/2vNwTX5RJyBuWchT7z"}, {"l": "Acceptation - cinema", "u": "https://on.soundcloud.com/BkA6iXDwZTsAaz3ISh"}, {"l": "Alternance 1 minute", "u": "https://on.soundcloud.com/XfJNWgtRWQPvQhRWWW"}], [{"l": "Scan court", "u": "https://on.soundcloud.com/kvqvLZjj7nPdsXYwnu"}, {"l": "Concentration assise", "u": "https://on.soundcloud.com/2vNwTX5RJyBuWchT7z"}, {"l": "Acceptation - train", "u": "https://on.soundcloud.com/COEpIWKQbmPtU1rf7k"}, {"l": "Alternance 1 minute", "u": "https://on.soundcloud.com/XfJNWgtRWQPvQhRWWW"}], [{"l": "Scan court", "u": "https://on.soundcloud.com/kvqvLZjj7nPdsXYwnu"}, {"l": "Concentration assise", "u": "https://on.soundcloud.com/2vNwTX5RJyBuWchT7z"}, {"l": "Acceptation - nuages", "u": "https://on.soundcloud.com/zHUkQrMoqvTtv2QtUt"}, {"l": "Alternance 30 sec", "u": "https://on.soundcloud.com/LYYsRttv8rziFlbTFO"}], [{"l": "Scan court", "u": "https://on.soundcloud.com/kvqvLZjj7nPdsXYwnu"}, {"l": "Concentration assise", "u": "https://on.soundcloud.com/2vNwTX5RJyBuWchT7z"}, {"l": "Alternance 30 sec", "u": "https://on.soundcloud.com/LYYsRttv8rziFlbTFO"}], []];
+var WK=[{"id": 1, "seg": "La ligne de depart", "ax": "Axe 1 - Psychoeducation et adhesion", "col": "violet", "ti": "Le point de depart", "ref": "Wegner (1994) - 3eme vague des TCC", "msg": "On te dit souvent de penser a autre chose ou de faire le vide. Le probleme, c'est qu'un cerveau qui essaie de NE PAS penser a quelque chose... y pense encore plus (Wegner, 1994). Cette premiere semaine, l'idee est de comprendre comment tu fonctionnes : tes pensees, tes emotions, et la relation que tu as avec elles. Pas de jugement - juste un point de depart, et l'occasion de clarifier ce qui compte vraiment pour toi en competition.", "acts": [{"id": "scan", "l": "Scan long", "n": "1x/jour", "days": [1, 2, 3, 4, 5, 6, 7]}, {"id": "resp", "l": "Respiration - assise", "n": "1x/jour", "days": [1, 2, 3, 4, 5, 6, 7]}], "aud": "Utilise les audios fournis par ton PM pour le scan et la concentration sur la respiration.", "dti": "Carte d'identite du coureur", "dtx": "Ecris en 5 lignes le coureur que tu veux devenir : pas tes chronos, mais ce que tu veux ressentir, montrer, vivre en competition.", "radar": "start"}, {"id": 2, "seg": "L'echauffement", "ax": "Axe 2 - Prise de conscience (1/2)", "col": "gold", "ti": "Calibrer son radar", "ref": "Bishop et al. (2004) - Reseau saillant", "msg": "Avant de pouvoir diriger ton attention ou tu veux, il faut d'abord savoir ou elle est (Bishop et al., 2004). Cette semaine, l'objectif est de developper ta LUCIDITE : remarquer ce que fait ton attention, sans juger. Je suis en train de penser a..., de ressentir..., de me dire..., d'imaginer...", "acts": [{"id": "scan", "l": "Scan court", "n": "1x/jour", "days": [1, 2, 3, 4, 5, 6, 7]}, {"id": "ras", "l": "Respiration - assise", "n": "J1, 3, 5, 7", "days": [1, 3, 5, 7]}, {"id": "rdb", "l": "Respiration - debout", "n": "J2, 4, 6", "days": [2, 4, 6]}], "aud": "Utilise les audios fournis par ton PM.", "tip": "Profite d'un moment du quotidien (douche, trajet, repas...) pour observer simplement ce qui se passe en toi, sans le changer.", "dti": "Chasse aux parasites", "dtx": "Pendant une seance, repere 1 ou 2 moments ou ton attention est partie ailleurs (pensee, bruit, fatigue...). Pas de jugement, juste un constat."}, {"id": 3, "seg": "La mise en route", "ax": "Axe 2 - Prise de conscience (2/2)", "col": "gold", "ti": "Le reservoir d'attention", "ref": "Lachaux (2016) - Lucidite / Acceptation / Reconcentration", "msg": "Ton attention, c'est comme un reservoir avec une quantite limitee (Lachaux, 2016). En course, chaque fraction de seconde d'attention perdue compte. Cette semaine, on multiplie les scans pour entrainer trois choses : la LUCIDITE (remarquer), l'ACCEPTATION (ne pas lutter) et la RECONCENTRATION (revenir a sa foulee). On introduit aussi la concentration intermittente.", "acts": [{"id": "scan", "l": "Scan court", "n": "2x/jour", "days": [1, 2, 3, 4, 5, 6, 7]}, {"id": "ras", "l": "Respiration - assise", "n": "J1, 3, 5, 7", "days": [1, 3, 5, 7]}, {"id": "int", "l": "Concentration intermittente", "n": "PC/activite - 1min/1min - J2, 4, 6", "days": [2, 4, 6]}], "aud": "Utilise les audios fournis par ton PM.", "tip": "Entre deux series a l'entrainement, fais un scan eclair de 30 secondes.", "dti": "Mon reservoir du jour", "dtx": "Pour ta seance la plus marquante, place le curseur selon la part de ton attention partie sur du stress vs sur ton allure.", "gauge": true}, {"id": 4, "seg": "Le moment difficile", "ax": "Axe 3 - Strategies d'acceptation (1/2)", "col": "teal", "ti": "Faire avec", "ref": "Hayes et al. (2003) - Modele ACT", "msg": "Une pensee n'est qu'une pensee. Pas un ordre, pas une verite, pas toi (Hayes et al., 2003). Plus tu luttes contre une pensee genante, plus elle revient. Cette semaine, tu travailles la defusion : prendre de la distance avec tes pensees grace a des metaphores (les nuages qui passent, les concurrents qui defilent comme sur un ecran de cinema...). Le but n'est pas de les faire disparaitre, mais de ne plus monter dedans.", "acts": [{"id": "scan", "l": "Scan court", "n": "3x/jour", "days": [1, 2, 3, 4, 5, 6, 7]}, {"id": "ras", "l": "Respiration - assise", "n": "J1, 5", "days": [1, 5]}, {"id": "pe", "l": "Pensees & emotions (Cinema)", "n": "J2, 4, 6", "days": [2, 4, 6]}, {"id": "int", "l": "Concentration intermittente", "n": "PC/activite - J3, 7", "days": [3, 7]}], "aud": "Utilise les audios fournis par ton PM.", "tip": "Quand une pensee genante arrive, essaie ta metaphore pour la laisser passer.", "dti": "Ma metaphore", "dtx": "Invente ta propre image pour une pensee qui passe (les concurrents qui defilent, un tour de piste qu'on ne ressasse pas, un nuage...). Ecris-la ci-dessous."}, {"id": 5, "seg": "La zone d'inconfort", "ax": "Axe 3 - Strategies d'acceptation (2/2)", "col": "teal", "ti": "Mes pensees ne sont pas des ordres", "ref": "Normaliser - Nommer - Compassion", "msg": "Avoir peur, stresser, douter avant une finale : c'est normal, ca arrive meme aux meilleurs. En course de fond, l'effort intense et l'inconfort sont inevitables - la question n'est pas de les fuir, mais de les accueillir. Trois outils : NORMALISER (je souffre, c'est normal, c'est ma course), NOMMER (j'ai la pensee que je vais decrocher), et la COMPASSION envers soi.", "acts": [{"id": "scan", "l": "Scan court", "n": "3x/jour", "days": [1, 2, 3, 4, 5, 6, 7]}, {"id": "ras", "l": "Respiration - assise", "n": "J1, 5", "days": [1, 5]}, {"id": "pe", "l": "Pensees & emotions (Train)", "n": "J2, 4, 6", "days": [2, 4, 6]}, {"id": "int", "l": "Concentration intermittente", "n": "PC/activite - J3, 7", "days": [3, 7]}], "aud": "Utilise les audios fournis par ton PM.", "tip": "Avant un effort intense, teste normaliser / nommer / compassion sur les pensees de fatigue anticipee.", "dti": "Test grandeur reelle", "dtx": "Sur un entrainement a enjeu (seance a enjeu, test), utilise ta metaphore S4 + un des 3 outils. Note ce qui s'est passe."}, {"id": 6, "seg": "Le relachement", "ax": "Axe 4 - Regulation de l'attention (1/2)", "col": "coral", "ti": "Mon engagement", "ref": "Mind, Body, Go", "msg": "On entre dans le dernier axe : reguler ton attention sur la tache, rester dans le moment present. La concentration intermittente passe a 30 secondes / 30 secondes - un rythme proche de ce que tu vis en course, ou ton attention doit sans cesse se reajuster entre sensation d'allure, placement, et relachement.", "acts": [{"id": "scan", "l": "Scan court", "n": "3x/jour", "days": [1, 2, 3, 4, 5, 6, 7]}, {"id": "ras", "l": "Respiration - assise", "n": "J1, 5", "days": [1, 5]}, {"id": "pe", "l": "Pensees & emotions (Nuages)", "n": "J2, 4, 6", "days": [2, 4, 6]}, {"id": "int", "l": "Concentration intermittente", "n": "PC - 30sec/30sec - 2x/jour - J3, 7", "days": [3, 7]}], "aud": "Utilise les audios fournis par ton PM.", "tip": "En course, repere un moment ou ton attention part sur un concurrent ou une douleur, et reviens consciemment a ton allure.", "dti": "Mes 3 reperes", "dtx": "Identifie 3 points d'attention pour ta course (allure, relachement des epaules, placement...) et 1 distracteur frequent a surveiller."}, {"id": 7, "seg": "Le sprint final", "ax": "Axe 4 - Regulation de l'attention (2/2)", "col": "coral", "ti": "Mind, Body, Go", "ref": "Methode SOAL - Mind, Body, Go", "msg": "Tu connais maintenant les outils : lucidite, acceptation, reconcentration. L'objectif est de les utiliser EN SITUATION, sous pression. La routine Mind, Body, Go en 3 temps : je REMARQUE (Mind), j'ACCEPTE et reviens a ma sensation de course (Body), je redirige et repars (Go). En course de fond, c'est la lucidite dans l'effort qui fait la difference.", "acts": [{"id": "scan", "l": "Scan court", "n": "3x/jour", "days": [1, 2, 3, 4, 5, 6, 7]}, {"id": "ras", "l": "Respiration - assise", "n": "J1, 5", "days": [1, 5]}, {"id": "pe", "l": "Pensees & emotions (au choix)", "n": "J2, 4, 6", "days": [2, 4, 6]}, {"id": "int", "l": "Concentration intermittente", "n": "PC - 30sec/30sec - 2x/jour - J3, 7", "days": [3, 7]}], "aud": "Utilise les audios fournis par ton PM.", "tip": "Utilise ta routine Mind, Body, Go dans une situation du quotidien qui te met sous pression.", "dti": "Pressure training", "dtx": "Organise (ou demande a ton entraineur) une seance avec un parasite volontaire (chrono visible, concurrent...). Fais le debrief avec la methode SOAL."}, {"id": 8, "seg": "La ligne d'arrivee", "ax": "Synthese des 4 axes", "col": "violet", "ti": "Ma routine, mon bilan", "ref": "Flexibilite psychologique (ACT)", "msg": "8 semaines, 4 axes : comprendre ton fonctionnement, devenir lucide, accepter, reguler ton attention. En course, la preparation mentale ne s'arrete pas - c'est une competence qui se maintient comme l'endurance. Choisis les exercices qui t'ont le plus aide et rassemble tout dans ta routine Mind, Body, Go personnelle.", "acts": [{"id": "scan", "l": "Scan court (au choix)", "n": "1x/jour", "days": [1, 2, 3, 4, 5, 6, 7]}, {"id": "rout", "l": "Ma routine Mind, Body, Go", "n": "avant chaque seance", "days": [1, 2, 3, 4, 5, 6, 7]}], "aud": "Reprends les audios qui t'ont le plus aide pendant les 7 dernieres semaines.", "tip": "Continue d'utiliser ta routine des que tu en as besoin.", "dti": "Bilan", "dtx": "Refais ton auto-evaluation et compare avec ta semaine 1. Presente ta routine a voix haute, a ton entraineur ou a toi-meme.", "radar": "end"}];
+var RP=[[50, 110], [153, 132], [256, 80], [359, 38], [462, 92], [565, 128], [668, 54], [771, 140]];
+
+//
+var ST={w:1,pr:{},df:{},rs:[5,5,5,5,5],re:[5,5,5,5,5],gv:{}};
+function lSt(){try{var r=localStorage.getItem("pcp5");if(r){var d=JSON.parse(r);if(d.w)ST.w=d.w;if(d.pr)ST.pr=d.pr;if(d.df)ST.df=d.df;if(d.rs)ST.rs=d.rs;if(d.re)ST.re=d.re;if(d.gv)ST.gv=d.gv;}}catch(e){}}
+function sSt(){try{localStorage.setItem("pcp5",JSON.stringify(ST));}catch(e){}}
+function wDone(w){var wd=ST.pr[w.id]||{};return w.acts.every(function(a){var d=wd[a.id]||[];return a.days.every(function(n){return!!d[n-1]});})&&!!ST.df[w.id];}
+
+//
+function buildRoute(){
+  var rw=document.getElementById("route-wrap");
+  var svg=document.getElementById("route-svg");
+  // Build SVG as string - values come from JS vars (no mixed quotes)
+  var pts=RP.map(function(p,i){return(i?"L":"M")+p[0]+","+p[1];}).join(" ");
+  var stops=WK.map(function(w,i){return "<stop offset=\""+Math.round(i/7*100)+"%\" stop-color=\""+CM[w.col]+"\"/>";}).join("");
+  var markers=WK.map(function(w,i){
+    var p=RP[i];
+    var cur=ST.w===w.id;
+    var dn=wDone(w);
+    var col=CM[w.col];
+    var fill=dn?col:(cur?C.s2:C.sf);
+    var stk=(cur||dn)?col:C.bd;
+    var sw=cur?3:1.5;
+    var tf=dn?C.bg:(cur?col:C.mu);
+    var lbl=dn?"&#10003;":String(w.id);
+    return "<g data-rid=\""+w.id+"\">"
+      +"<circle cx=\""+p[0]+"\" cy=\""+p[1]+"\" r=\"16\" fill=\""+fill+"\" stroke=\""+stk+"\" stroke-width=\""+sw+"\"/>"
+      +"<text x=\""+p[0]+"\" y=\""+(p[1]+1)+"\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"ui-monospace,monospace\" font-size=\"13\" font-weight=\"700\" fill=\""+tf+"\">"+lbl+"</text>"
+      +"<text x=\""+p[0]+"\" y=\""+(p[1]-24)+"\" text-anchor=\"middle\" font-size=\"10\" fill=\""+C.mu+"\">"+w.seg+"</text>"
+      +"</g>";
+  }).join("");
+  svg.innerHTML=""
+    +"<defs><linearGradient id=\"rg\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\">"+stops+"</linearGradient></defs>"
+    +"<path d=\""+pts+" L771,155 L50,155 Z\" fill=\"url(#rg)\" opacity=\"0.18\"/>"
+    +"<path d=\""+pts+"\" fill=\"none\" stroke=\""+C.bd+"\" stroke-width=\"2\"/>"
+    +markers;
+  // scroll to current
+  var p=RP[ST.w-1];
+  if(p&&rw)rw.scrollLeft=Math.max(0,p[0]*(rw.clientWidth/840)-rw.clientWidth/2);
+}
+
+//
+function buildCard(){
+  var wi=ST.w-1;
+  var w=WK[wi];
+  var col=CM[w.col];
+  var wd=ST.pr[w.id]||{};
+  var dj=["J1","J2","J3","J4","J5","J6","J7"];
+  var h="";
+
+  h+="<div class=\"card\">";
+  h+="<span class=\"cseg\" style=\"color:"+col+"\">"+w.seg+" - Semaine "+w.id+"/8</span>";
+  h+="<span class=\"cax\">"+w.ax+"</span>";
+  h+="<h2 class=\"ctit\">"+w.ti+"</h2>";
+  h+="<span class=\"rtag\">"+w.ref+"</span>";
+  h+="<p class=\"msg\">"+w.msg+"</p>";
+
+  // Pratique
+  h+="<div class=\"sec\">";
+  h+="<span class=\"stit\" style=\"color:"+col+"\">Pratique de la semaine</span>";
+
+  // Audio links
+  var links=AU[wi];
+  if(links&&links.length){
+    h+="<div class=\"abox\">";
+    h+="<span class=\"albl\">"+w.aud+"</span>";
+    links.forEach(function(lk){
+      h+="<a class=\"alink\" href=\""+lk.u+"\" target=\"_blank\" rel=\"noopener\">"+lk.l+"</a>";
+    });
+    h+="</div>";
+  } else {
+    h+="<span class=\"stxt\">"+w.aud+"</span>";
+  }
+
+  // Day headers
+  h+="<div class=\"dhdr\">"+dj.map(function(d){return"<div>"+d+"</div>";}).join("")+"</div>";
+
+  // Activities
+  w.acts.forEach(function(a){
+    var days=wd[a.id]||[];
+    h+="<div class=\"abl\">";
+    h+="<span class=\"anm\">"+a.l+"</span>";
+    h+="<span class=\"ant\">"+a.n+"</span>";
+    h+="<div class=\"adys\">";
+    for(var i=0;i<7;i++){
+      var dn2=a.days.indexOf(i+1)>-1;
+      if(!dn2){
+        h+="<button class=\"db na\" disabled>-</button>";
+      } else {
+        var ok=!!days[i];
+        var bg=ok?"background:"+col+";border-color:"+col+";color:"+C.bg:"";
+        h+="<button class=\"db\" style=\""+bg+"\" data-w=\""+w.id+"\" data-a=\""+a.id+"\" data-i=\""+i+"\">"+(ok?"&#10003;":"")+"</button>";
+      }
+    }
+    h+="</div></div>";
+  });
+
+  if(w.tip)h+="<span class=\"stxt\" style=\"margin-top:8px;display:block\">"+w.tip+"</span>";
+  h+="</div>";
+
+  // Defi
+  var dfDone=!!ST.df[w.id];
+  h+="<div class=\"sec\">";
+  h+="<span class=\"stit\" style=\"color:"+col+"\">Defi de la semaine</span>";
+  h+="<div class=\"dfc\">";
+  var dfStyle="border-color:"+col+(dfDone?";background:"+col+";color:"+C.bg:"");
+  h+="<button class=\"dfb\" style=\""+dfStyle+"\" data-dw=\""+w.id+"\">"+(dfDone?"&#10003;":"")+"</button>";
+  h+="<div><div class=\"dft\">"+w.dti+"</div><div class=\"dfx\">"+w.dtx+"</div></div>";
+  h+="</div></div>";
+
+  // Gauge
+  if(w.gauge){
+    var gv=ST.gv[w.id]!==undefined?ST.gv[w.id]:50;
+    h+="<div class=\"sec\">";
+    h+="<span class=\"stit\" style=\"color:"+col+"\">Mon reservoir du jour</span>";
+    h+="<input type=\"range\" min=\"0\" max=\"100\" value=\""+gv+"\" id=\"gv-inp\" style=\"accent-color:"+col+"\">";
+    h+="<div class=\"glb\"><span>Parasites / stress</span><span>Tache / reperes</span></div>";
+    h+="</div>";
+  }
+
+  // Radar start
+  if(w.radar==="start"){
+    h+="<div class=\"sec\">";
+    h+="<span class=\"stit\" style=\"color:"+col+"\">Mon point de depart</span>";
+    h+="<span class=\"stxt\">Place chaque curseur de 0 a 10. Tu retrouveras ce radar en semaine 8.</span>";
+    h+="<div class=\"rdw\" id=\"rdsp\">"+mkRadar([{v:ST.rs,c:col,fo:0.28}],280)+"</div>";
+    AX.forEach(function(ax,i){
+      h+="<div class=\"slr\">";
+      h+="<div class=\"slh\"><span>"+ax.l+"</span><span class=\"slv\" id=\"rv"+i+"\" style=\"color:"+col+"\">"+ST.rs[i]+"/10</span></div>";
+      h+="<span class=\"sld\">"+ax.d+"</span>";
+      h+="<input type=\"range\" min=\"0\" max=\"10\" step=\"1\" value=\""+ST.rs[i]+"\" style=\"accent-color:"+col+"\" data-rs=\""+i+"\">";
+      h+="</div>";
+    });
+    h+="</div>";
+  }
+
+  // Radar end
+  if(w.radar==="end"){
+    h+="<div class=\"sec\">";
+    h+="<span class=\"stit\" style=\"color:"+col+"\">Mon bilan</span>";
+    h+="<span class=\"stxt\">Compare ton evaluation avec ton point de depart (semaine 1).</span>";
+    h+="<div class=\"rlg\"><span><span class=\"ldot\" style=\"background:"+C.mu+"\"></span>Semaine 1</span><span><span class=\"ldot\" style=\"background:"+col+"\"></span>Semaine 8</span></div>";
+    h+="<div class=\"rdw\" id=\"rdsp\">"+mkRadar([{v:ST.rs,c:C.mu,fo:0.08,da:true},{v:ST.re,c:col,fo:0.28}],280)+"</div>";
+    AX.forEach(function(ax,i){
+      h+="<div class=\"slr\">";
+      h+="<div class=\"slh\"><span>"+ax.l+"</span><span class=\"slv\" id=\"ev"+i+"\" style=\"color:"+col+"\">"+ST.re[i]+"/10</span></div>";
+      h+="<span class=\"sld\">"+ax.d+"</span>";
+      h+="<input type=\"range\" min=\"0\" max=\"10\" step=\"1\" value=\""+ST.re[i]+"\" style=\"accent-color:"+col+"\" data-re=\""+i+"\">";
+      h+="</div>";
+    });
+    h+="</div>";
+  }
+
+  h+="</div>";
+  document.getElementById("card").innerHTML=h;
+
+  // Bind events via delegation
+  document.getElementById("card").addEventListener("click",onCardClick);
+  document.getElementById("card").addEventListener("input",onCardInput);
+}
+
+//
+function mkRadar(series,sz){
+  var cx=sz/2,r=sz*0.34,n=AX.length;
+  function pt(v,i){var a=-Math.PI/2+i*2*Math.PI/n,rr=v/10*r;return[(cx+rr*Math.cos(a)),(cx+rr*Math.sin(a))];}
+  function ring(f){var pts=[];for(var i=0;i<n;i++){var a=-Math.PI/2+i*2*Math.PI/n;pts.push((cx+r*f*Math.cos(a))+","+(cx+r*f*Math.sin(a)));}return pts.join(" ");}
+  var s="<svg viewBox=\"0 0 "+sz+" "+sz+"\">";
+  [1,.8,.6,.4,.2].forEach(function(f){s+="<polygon points=\""+ring(f)+"\" fill=\"none\" stroke=\""+C.bd+"\" stroke-width=\"1\"/>";});
+  for(var i=0;i<n;i++){var p=pt(10,i);s+="<line x1=\""+cx+"\" y1=\""+cx+"\" x2=\""+p[0]+"\" y2=\""+p[1]+"\" stroke=\""+C.bd+"\" stroke-width=\"1\"/>";}
+  series.forEach(function(sr){
+    var pts=sr.v.map(function(v,i){var p=pt(v,i);return p[0]+","+p[1];}).join(" ");
+    var da=sr.da?"stroke-dasharray=\"4 4\"":"";
+    s+="<polygon points=\""+pts+"\" fill=\""+sr.c+"\" fill-opacity=\""+(sr.fo||0.25)+"\" stroke=\""+sr.c+"\" stroke-width=\""+(sr.da?1.5:2.5)+"\" "+da+"/>";
+  });
+  for(var i=0;i<n;i++){
+    var a=-Math.PI/2+i*2*Math.PI/n,rl=r+26;
+    s+="<text x=\""+(cx+rl*Math.cos(a))+"\" y=\""+(cx+rl*Math.sin(a))+"\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"ui-monospace,monospace\" font-size=\"9\" fill=\""+C.mu+"\">"+AX[i].l+"</text>";
+  }
+  return s+"</svg>";
+}
+
+//
+function onCardClick(e){
+  var t=e.target;
+  // Day button
+  if(t.dataset&&t.dataset.w&&t.dataset.a&&t.dataset.i!==undefined&&!t.disabled){
+    var wid=parseInt(t.dataset.w),aid=t.dataset.a,idx=parseInt(t.dataset.i);
+    if(!ST.pr[wid])ST.pr[wid]={};
+    if(!ST.pr[wid][aid])ST.pr[wid][aid]=[];
+    ST.pr[wid][aid][idx]=!ST.pr[wid][aid][idx];
+    sSt();render();return;
+  }
+  // Defi button
+  if(t.dataset&&t.dataset.dw){
+    var wid=parseInt(t.dataset.dw);
+    ST.df[wid]=!ST.df[wid];
+    sSt();render();return;
+  }
+}
+function onCardInput(e){
+  var t=e.target;
+  var col=CM[WK[ST.w-1].col];
+  if(t.id==="gv-inp"){ST.gv[ST.w]=parseInt(t.value);sSt();return;}
+  if(t.dataset&&t.dataset.rs!==undefined){
+    var i=parseInt(t.dataset.rs);
+    ST.rs[i]=parseInt(t.value);sSt();
+    var el=document.getElementById("rv"+i);if(el)el.textContent=t.value+"/10";
+    var rd=document.getElementById("rdsp");if(rd)rd.innerHTML=mkRadar([{v:ST.rs,c:col,fo:0.28}],280);
+    return;
+  }
+  if(t.dataset&&t.dataset.re!==undefined){
+    var i=parseInt(t.dataset.re);
+    ST.re[i]=parseInt(t.value);sSt();
+    var el=document.getElementById("ev"+i);if(el)el.textContent=t.value+"/10";
+    var rd=document.getElementById("rdsp");if(rd)rd.innerHTML=mkRadar([{v:ST.rs,c:C.mu,fo:0.08,da:true},{v:ST.re,c:col,fo:0.28}],280);
+    return;
+  }
+}
+
+//
+document.getElementById("route-svg").addEventListener("click",function(e){
+  var t=e.target;
+  while(t&&t!==this){if(t.dataset&&t.dataset.rid){go(parseInt(t.dataset.rid));return;}t=t.parentNode;}
+});
+
+//
+function go(id){
+  ST.w=Math.max(1,Math.min(8,id));
+  sSt();render();
+  try{window.scrollTo(0,0);}catch(e){}
+}
+
+function render(){
+  buildRoute();
+  buildCard();
+  document.getElementById("pill").textContent=WK.filter(wDone).length+"/8";
+  document.getElementById("prev-btn").disabled=ST.w===1;
+  document.getElementById("next-btn").textContent=ST.w===8?"Revoir depuis le debut":"Suivant";
+}
+
+document.getElementById("prev-btn").addEventListener("click",function(){go(ST.w-1);});
+document.getElementById("next-btn").addEventListener("click",function(){ST.w===8?go(1):go(ST.w+1);});
+document.getElementById("reset-btn").addEventListener("click",function(){
+  if(confirm("Reinitialiser toute ta progression ?")){
+    ST={w:1,pr:{},df:{},rs:[5,5,5,5,5],re:[5,5,5,5,5],gv:{}};
+    sSt();render();
+  }
+});
+
+lSt();
+render();
+</script>
+</body>
+</html>
